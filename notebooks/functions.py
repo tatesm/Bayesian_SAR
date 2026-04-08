@@ -43,7 +43,9 @@ def apply_prior_distribution(grid, cell_probability_function):
 def normalize_grid(grid):
     if np.isclose(np.sum(grid), 0):
         raise ValueError("Sum of filled grid is 0")
+    
     normalized_grid = grid /np.sum(grid)
+    
     if np.isclose(np.sum(normalized_grid),1):
         return normalized_grid
     else:
@@ -80,3 +82,11 @@ def run_search(grid: np.ndarray, pod: float, steps: int) -> list:
         search_history.append(cell)
         grid = grid_update(cell, grid, pod)
     return search_history
+
+def sample_true_cell(grid):
+    cols = grid.shape[1]
+    flat = grid.flatten()
+    k = np.random.choice(len(flat), p=flat)
+    i = k//cols
+    j = k % cols
+    return i,j
