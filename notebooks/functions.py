@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import random
 
 def init_grid(rows, columns):
 
@@ -35,7 +36,7 @@ def apply_prior_distribution(grid, cell_probability_function):
     new_grid = np.zeros_like(grid)
     for (i, j), value in np.ndenumerate(grid):
         new_grid[i, j] = cell_probability_function(i,j)
-        print(f"Index: ({i}, {j}), Cell Probability: {new_grid[i, j]}")
+        # print(f"Index: ({i}, {j}), Cell Probability: {new_grid[i, j]}")
     return new_grid
 
 
@@ -90,3 +91,26 @@ def sample_true_cell(grid):
     i = k//cols
     j = k % cols
     return i,j
+
+
+def v1_sim(grid,pod,true_cell) -> tuple[list, int, str]:
+    # Valid POD
+    if 0 < pod <= 1:        
+        step_counter = 0
+        search_history = []
+
+
+        while True:
+            cell = choose_next_cell(grid)
+            step_counter += 1
+            search_history.append(cell)
+            if cell == true_cell:
+                random_draw = random.random()  # already uniform on [0.0, 1.0)   
+                if random_draw <= pod:
+                    return search_history, step_counter, "Successfully located Target"                        
+
+            grid = grid_update(cell, grid, pod)
+                      
+
+    else:
+        raise ValueError("Invalid POD")
