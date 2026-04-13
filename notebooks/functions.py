@@ -92,25 +92,29 @@ def sample_true_cell(grid):
     j = k % cols
     return i,j
 
-
-def v1_sim(grid,pod,true_cell) -> tuple[list, int, str]:
-    # Valid POD
-    if 0 < pod <= 1:        
-        step_counter = 0
-        search_history = []
-
-
-        while True:
-            cell = choose_next_cell(grid)
-            step_counter += 1
-            search_history.append(cell)
-            if cell == true_cell:
-                random_draw = random.random()  # already uniform on [0.0, 1.0)   
-                if random_draw <= pod:
-                    return search_history, step_counter, "Successfully located Target"                        
-
-            grid = grid_update(cell, grid, pod)
-                      
-
-    else:
+def v1_sim(grid, pod, true_cell):
+    if not (0 < pod <= 1):
         raise ValueError("Invalid POD")
+
+    tc_searches = 0
+    step_counter = 0
+    search_history = []
+
+    while True:
+        cell = choose_next_cell(grid)
+        step_counter += 1
+        search_history.append(cell)
+
+        if cell == true_cell:
+            tc_searches += 1
+            random_draw = random.random()
+            if random_draw <= pod:
+                return {
+                    "Step Counter": step_counter,
+                    "Search History": search_history,
+                    "True Cell Location": true_cell,
+                    "Failed Detections": tc_searches - 1,
+                    "Times True Cell was Searched": tc_searches,
+                }
+
+        grid = grid_update(cell, grid, pod)
