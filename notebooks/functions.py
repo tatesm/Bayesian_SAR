@@ -113,8 +113,7 @@ def v1_sim(grid, pod, true_cell):
                     "Step Counter": step_counter,
                     "Search History": search_history,
                     "True Cell Location": true_cell,
-                    "Failed Detections": tc_searches - 1,
-                    "Times True Cell was Searched": tc_searches,
+                    "Failed Detections": tc_searches - 1
                 }
 
         grid = grid_update(cell, grid, pod)
