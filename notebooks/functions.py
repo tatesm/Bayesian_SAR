@@ -1,6 +1,8 @@
 import numpy as np
 import math
 import random
+import pandas as pd
+import seaborn as sns
 
 def init_grid(rows, columns):
 
@@ -96,7 +98,6 @@ def v1_sim(grid, pod, true_cell):
     if not (0 < pod <= 1):
         raise ValueError("Invalid POD")
 
-    tc_searches = 0
     step_counter = 0
     search_history = []
 
@@ -106,14 +107,32 @@ def v1_sim(grid, pod, true_cell):
         search_history.append(cell)
 
         if cell == true_cell:
-            tc_searches += 1
             random_draw = random.random()
             if random_draw <= pod:
                 return {
                     "Step Counter": step_counter,
                     "Search History": search_history,
-                    "True Cell Location": true_cell,
-                    "Failed Detections": tc_searches - 1
+                    "True Cell Location": true_cell
                 }
 
         grid = grid_update(cell, grid, pod)
+
+def first_visit_step(search_history, true_cell):
+    fvs = 0
+    for i, val in enumerate(search_history):
+        if val == true_cell:
+            fvs = i +1
+            return fvs
+    raise ValueError("Bad Input, no true cell")
+
+def detection_lag(step_counter, fvs):
+    return step_counter - fvs
+
+def failed_detections(search_history, true_cell):
+    num_failed_detects = search_history.count(true_cell) - 1
+    return num_failed_detects
+
+def relative_first_visit(first_visit_step, step_counter):
+    rfs = first_visit_step / step_counter
+    return rfs
+
