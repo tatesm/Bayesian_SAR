@@ -62,9 +62,9 @@ Z = W × L
 
 Coverage is defined as:
 
-\[
-Coverage = \frac{Effort}{Area}
-\]
+```
+Coverage = Effort / Area
+```
 
 Higher coverage increases the probability of detection.
 
@@ -116,10 +116,10 @@ This updating process is repeated iteratively as new searches are conducted.
 ---
 
 ### Phase 3 – Advanced System
-- Monte Carlo particle simulation (SAROPS-inspired)  
+- Monte Carlo particle simulation (SAROPS-inspired direction) 
 - Time-evolving probability distributions  
-- Integration with real GIS data  
-- Optimization of search allocation strategies  
+- (Planned) integration with real GIS data 
+- Exploration of search allocation strategies  
 
 ---
 
